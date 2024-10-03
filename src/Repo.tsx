@@ -1,18 +1,15 @@
-import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 
 import { FolderGit, Star, GitFork } from "lucide-react"
 
 const numberFormatter = new Intl.NumberFormat();
 
-const Repo = ({ repo }) => {
+const Repo = ({ repo }: { repo: any }) => {
   return (
     <Card>
       <CardHeader>

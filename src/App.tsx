@@ -5,7 +5,21 @@ import { LoaderIcon } from "lucide-react"
 import Menu from "./Menu"
 import Repos from "./Repos"
 
-export const useStore = create(set => ({
+export type ViewOption = 'daily' | 'weekly' | 'monthly'
+
+type Store = {
+  loading: boolean
+  repos: {
+    daily: any[]
+    weekly: any[]
+    monthly: any[]
+  }
+  view: ViewOption
+  setView: (view: ViewOption) => void
+  loadRepos: () => void
+}
+
+export const useStore = create<Store>((set, get) => ({
   loading: false,
   repos: {
     daily: [],
@@ -14,16 +28,17 @@ export const useStore = create(set => ({
   },
   view: 'daily',
   setView: view => set({ view }),
-  loadRepos: () => set(async state => {
+  loadRepos: async () => {
+    const { view, repos } = get()
     set({ loading: true })
-    const url = `https://api.gitterapp.com/repositories?since=${state.view}`;
+    const url = `https://api.gitterapp.com/repositories?since=${view}`;
     const resp = await fetch(url);
     const body = await resp.json();
-    const newRepos = Object.assign({}, state.repos, {
-      [state.view]: body,
+    set({
+      loading: false,
+      repos: { ...repos, [view]: body }
     })
-    set({ loading: false, repos: newRepos })
-  })
+  }
 }))
 
 function App() {
