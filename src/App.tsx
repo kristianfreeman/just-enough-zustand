@@ -27,10 +27,13 @@ export const useStore = create(set => ({
 }))
 
 function App() {
-  const { loading } = useStore()
+  const loading = useStore(state => state.loading)
   return (
     <div className="flex flex-col items-center gap-8">
       <h1 className="text-3xl font-bold">Zustand Example</h1>
+      <h2>
+        Example app showing how to use Zustand. <a className="hover:underline text-blue-800" href="https://kristianfreeman.com/just-enough-zustand">Read the blog post.</a>
+      </h2>
       <div className="flex flex-col items-center gap-8">
         <Menu />
         {loading && <LoaderIcon className="animate-spin" />}
