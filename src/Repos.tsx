@@ -1,11 +1,12 @@
+import { useShallow } from "zustand/react/shallow"
 import { useEffect } from "react";
 import { useStore } from "./App"
 import Repo from "./Repo";
 
 const Repos = () => {
-  const loadRepos = useStore(state => state.loadRepos)
-  const repos = useStore(state => state.repos)
-  const view = useStore(state => state.view)
+  const [loadRepos, repos, view] = useStore(
+    useShallow(state => [state.loadRepos, state.repos, state.view])
+  )
 
   useEffect(() => {
     loadRepos()

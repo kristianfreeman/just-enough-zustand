@@ -1,3 +1,4 @@
+import { useShallow } from "zustand/react/shallow"
 import { Button } from "@/components/ui/button"
 import { useStore } from "./App"
 
@@ -5,8 +6,9 @@ import type { ViewOption } from "./App";
 
 const Menu = () => {
   const viewOptions: ViewOption[] = ["daily", "weekly", "monthly"];
-  const setView = useStore(state => state.setView)
-  const view = useStore(state => state.view)
+  const [setView, view] = useStore(
+    useShallow(state => [state.setView, state.view])
+  )
 
   return (
     <nav className="flex gap-2 justify-center items-center">
